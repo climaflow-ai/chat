@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Крым без имён</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><button id="back" hidden>←</button><h1 id="title">🌊 Крым без имён</h1>
+<button id="theme" title="Тема">🌓</button></header>
+<main>
+ <section id="login"><svg class="hero" viewBox="0 0 400 150" role="img" aria-label="Вечерняя Евпатория"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6a04a"/><stop offset="1" stop-color="#fde2b8"/></linearGradient></defs><rect width="400" height="92" fill="url(#sk)"/><circle cx="300" cy="72" r="24" fill="#fff3c4"/><rect y="90" width="400" height="60" fill="#16a6a6"/><path d="M0 105q25-8 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0" stroke="#fff9" fill="none"/><path d="M0 125q25-8 50 0t50 0 50 0 50 0 50 0 50 0 50 0 50 0" stroke="#fff6" fill="none"/><rect y="86" width="400" height="7" fill="#d9b98a"/><g fill="#2b3a3f"><rect x="40" y="58" width="2" height="28"/><rect x="150" y="58" width="2" height="28"/><rect x="260" y="58" width="2" height="28"/></g><g fill="#ffe27a"><circle cx="41" cy="56" r="5"/><circle cx="151" cy="56" r="5"/><circle cx="261" cy="56" r="5"/></g><g stroke="#fff" fill="none" stroke-width="2"><path d="M70 28q6-8 12 0q6-8 12 0"/><path d="M200 18q5-7 10 0q5-7 10 0"/></g></svg>
+  <h2>Добро пожаловать!</h2>
+  <p>Здесь можно быть собой, даже если никто не знает твоего имени.</p>
+  <p class="hint">Выбери, кем ты будешь сегодня</p>
+  <div id="presets"></div>
+  <input id="nick" maxlength="24" placeholder="Или придумай своё имя">
+  <details><summary>Правила и конфиденциальность</summary><p class="hint">Будьте вежливы, без спама, угроз и чужих личных данных. Анонимность перед участниками не означает полной технической анонимности. Личные данные видит только тот, кому вы их открыли; открытые сведения получатель может сохранить. Аккаунт можно удалить в «Я».</p></details><button id="enter" class="big">Войти в чат</button>
+ </section>
+ <section id="rooms" hidden></section>
+ <section id="chat" hidden>
+  <div id="pinbar" class="hint" hidden></div><div id="msgs"></div>
+  <div id="typing"></div><div id="replybar" hidden><span id="replytxt"></span><button id="cancel">✕</button></div>
+  <div id="composer"><label class="att">📎<input id="file" type="file" accept="image/jpeg,image/png,image/webp" hidden></label><input id="text" maxlength="1000" placeholder="Сообщение…"><button id="send">➤</button></div>
+ </section>
+</main>
+<footer><a href="https://max.ru/channel_Lovely_Crimea">← Вернуться в «Полезный Крым»</a><br>🌊 Создано для подписчиков канала «Полезный Крым»</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/dist/umd/supabase.js"></script>
+<script src="config.js"></script><script src="app.js"></script><script src="app2.js"></script><script src="app3.js"></script>
+</body></html>
