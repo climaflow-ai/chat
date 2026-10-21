@@ -43,9 +43,11 @@ async function toggle(id,e,mine){
 $("#text").addEventListener("input",()=>{if(room&&!window.dmId&&pres&&pres.state==="joined"&&Date.now()-lt>1500){lt=Date.now();pres.send({type:"broadcast",event:"typing",payload:{room:room.id,u:me.id,n:profiles[me.id].nickname}})}});
 $("#file").onchange=async e=>{
   const f=e.target.files[0];e.target.value="";if(!f)return;
-  if(!/^image\/(jpeg|png|webp)$/.test(f.type)||f.size>2e6)return alert("Только JPG, PNG или WebP до 2 МБ");
-  const path=`${me.id}/${Date.now()}.${f.type.split("/")[1]}`;
-  const u=await sb.storage.from("photos").upload(path,f,{contentType:f.type});if(u.error)return alert(u.error.message);
+  if(!/^image\/(jpeg|png|webp)$/.test(f.type))return alert("Поддерживаются только фото JPG, PNG или WebP (формат HEIC не подходит).");
+  if(f.size>15e6)return alert("Фото слишком большое (больше 15 МБ). Выберите файл поменьше.");
+  const blob=await shrink(f);if(!blob)return alert("Не удалось обработать фото. Попробуйте другое.");
+  const path=`${me.id}/${Date.now()}.jpg`;
+  const u=await sb.storage.from("photos").upload(path,blob,{contentType:"image/jpeg"});if(u.error)return alert(u.error.message);
   const image_url=sb.storage.from("photos").getPublicUrl(path).data.publicUrl,body=$("#text").value.trim()||"📷";$("#text").value="";
   const r=window.dmId?await sb.from("dm_messages").insert({dialog_id:dmId,body,image_url}):await sb.from("messages").insert({room_id:room.id,body,image_url});
   if(r.error)alert(r.error.message);
@@ -76,3 +78,17 @@ $("#login").append(el("button","Уже есть профиль? Восстано
   const {error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.href}});
   alert(error?error.message:"Письмо со ссылкой для входа отправлено.");
 }));
+
+// Сжатие: уменьшаем до 1280 px и JPEG, чтобы фото с телефона открывались у всех (итог до ~1,5 МБ)
+async function shrink(f){
+  try{
+    const bmp=await createImageBitmap(f);
+    for(const [w,q] of [[1280,.8],[1024,.7],[800,.6]]){
+      const k=Math.min(1,w/Math.max(bmp.width,bmp.height)),c=document.createElement("canvas");
+      c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+      const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);
+      const b=await new Promise(r=>c.toBlob(r,"image/jpeg",q));if(b&&b.size<=1.5e6)return b;
+    }
+  }catch(e){}
+  return null;
+}

@@ -3,7 +3,7 @@
 1. Создайте проект на supabase.com (бесплатный тариф подойдёт).
 2. **Authentication → Providers → Anonymous Sign-Ins → включить.**
    Там же (Attack Protection) включите CAPTCHA, чтобы не плодили массово анонимные аккаунты.
-3. **SQL Editor** → выполните `database.sql`, затем `database2.sql`, затем `database3.sql` (фото, реакции, закрепление, «Тайный собеседник»).
+3. **SQL Editor** → выполните `database.sql`, затем `database2.sql`, затем `database3.sql` (фото, реакции, закрепление, «Тайный собеседник»), затем `database4.sql` (игра «Имаджинариум»).
    Чтобы стать админом: откройте приложение, зайдите, затем в Table Editor → profiles поставьте себе role = admin (или SQL-строка в конце database2.sql). Модераторов назначайте так же (role = moderator).
 4. **Project Settings → API**: скопируйте Project URL и **anon** ключ.
 5. Скопируйте `config.example.js` в `config.js`, вставьте значения. (anon-ключ публичен по дизайну, защищают его политики RLS из database.sql. `service_role` — никогда в браузер.)
@@ -21,3 +21,5 @@
 - Восстановление профиля: Authentication → Providers → Email включить; в URL Configuration добавить адрес вашего сайта в Redirect URLs. Пользователь привязывает e-mail в «Я», на новом устройстве нажимает «Восстановить по e-mail».
 - Онлайн и «печатает» работают через Realtime Presence/Broadcast (включено по умолчанию).
 - Фото: бакет `photos` создаётся в database3.sql (JPG/PNG/WebP, до 2 МБ).
+
+- Карты «Имаджинариума» лежат в assets/cards (1.jpg … 84.jpg). Если файла нет, показывается нарисованная карта.
